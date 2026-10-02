@@ -1,6 +1,6 @@
 # S1P Axis Remodeling in Colorectal Cancer Liver Metastasis (Single-Cell RNA-Seq)
 
-[![Reproducible Workflow](https://img.shields.io/badge/Workflow-Reproducible-green.svg)](https://github.com/NargesShayesteh)
+[![Reproducible Workflow](https://img.shields.io/badge/Workflow-Reproducible-green.svg)](https://github.com/shayesteh68)
 [![Python](https://img.shields.io/badge/Python-3.14%2B-blue.svg)](https://www.python.org/)
 [![Scanpy](https://img.shields.io/badge/Scanpy-1.10%2B-brightgreen.svg)](https://scanpy.readthedocs.io/)
 [![Dataset](https://img.shields.io/badge/NCBI%20GEO-GSE178318-orange.svg)](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE178318)
@@ -9,17 +9,17 @@
 
 ## 🔬 Overview & Scientific Rationale
 
-Colorectal cancer (CRC) liver metastasis remains a clinical bottleneck driven by profound stromal remodeling and immune suppression in the liver metastatic niche. The **Sphingosine-1-Phosphate (S1P) signaling axis** regulates fibrosis, immune trafficking, and vascular permeability, yet its lineage-specific activation across matched primary CRC vs. liver metastases has remained largely unquantified at single-cell resolution.
+Colorectal cancer (CRC) liver metastasis remains a major clinical challenge characterized by profound stromal remodeling and immune suppression within the metastatic liver niche. The **Sphingosine-1-Phosphate (S1P) signaling axis** plays a pivotal role in fibrosis, immune cell trafficking, and vascular permeability; however, its lineage-specific dynamics between matched primary CRC and liver metastases have remained largely unquantified at single-cell resolution.
 
-This repository provides a memory-optimized, zero-hallucination re-analysis of **104,485 single cells** from **GSE178318** (Yeatman Lab dataset), mapping the quantitative shift in the S1P metabolic and signaling network across discrete tumor and microenvironmental lineages.
+This repository provides a memory-optimized, fully reproducible re-analysis of **104,485 single cells** from **GSE178318** (Yeatman Lab dataset), mapping quantitative expression shifts in the S1P metabolic and receptor network across discrete tumor and microenvironmental lineages.
 
 ---
 
 ## 🎯 Key Findings & Biological Insights
 
 1. **CAF Activation via S1PR3 / SPHK2 Axis:**
-   - **Cancer-Associated Fibroblasts (CAFs)** in liver metastasis (`LM`) exhibit substantial upregulation of **`S1PR3` (+0.0875)** and **`SPHK2` (+0.0258)**.
-   - Concurrently, S1P-degrading lipid phosphate phosphatases **`PLPP3` (-0.2665)** and **`PLPP1` (-0.2013)** are heavily suppressed in metastatic stroma, establishing a local accumulation of pro-fibrotic S1P signaling.
+   - **Cancer-Associated Fibroblasts (CAFs)** in liver metastasis (`LM`) exhibit prominent upregulation of **`S1PR3` (+0.0875)** and **`SPHK2` (+0.0258)**.
+   - Concurrently, S1P-degrading lipid phosphate phosphatases **`PLPP3` (-0.2665)** and **`PLPP1` (-0.2013)** are heavily suppressed in metastatic stroma, driving localized pro-fibrotic S1P pathway retention.
 2. **Myeloid / TAM Phenotypic Shift:**
    - Infiltrating myeloid lineages in liver metastasis demonstrate elevated **`ASAH1` (+0.0994)** and **`S1PR4` (+0.0341)** expression, characteristic of immunosuppressive polarization.
 3. **Epithelial/Tumor Reprogramming:**
@@ -84,8 +84,8 @@ text
 
 ## ⚡ Memory & Execution Safety
 
-- **Hardware Efficiency:** Designed specifically to run on local environments with **12 GB RAM**.
-- **Sparse Matrix Standard:** Employs `scipy.sparse.csr_matrix` slicing throughout downstream quantification to eliminate OOM risks.
+- **Hardware Efficiency:** Designed to execute within 12 GB RAM constraints.
+- **Sparse Matrix Standard:** Employs `scipy.sparse.csr_matrix` slicing throughout downstream quantification to eliminate out-of-memory risks.
 
 ---
 
@@ -93,6 +93,4 @@ text
 
 **Narges Shayesteh**  
 *Freelance Bioinformatician & Computational Biologist*  
-- **Focus:** Single-Cell RNA-Seq, Spatial Transcriptomics, Tumor Microenvironment Profiling.  
-- **GitHub:** [github.com/NargesShayesteh](https://github.com/NargesShayesteh)  
-- **Email:** narges.shayesteh@outlook.com *(or your professional contact)*
+- **GitHub:** [shayesteh68](https://github.com/shayesteh68)
