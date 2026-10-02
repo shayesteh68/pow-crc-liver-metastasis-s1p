@@ -1,0 +1,44 @@
+import gzip
+import os
+
+DATA_DIR = "/home/digital_home/targeted_researcher_discovery/pow_yeatman_colorectal/data"
+
+genes_file = os.path.join(DATA_DIR, "GSE178318_genes.tsv.gz")
+barcodes_file = os.path.join(DATA_DIR, "GSE178318_barcodes.tsv.gz")
+
+print("=== 1. Checking S1P Axis Target Genes ===")
+target_genes = ["SPHK1", "SPHK2", "S1PR1", "S1PR2", "S1PR3", "S1PR4", "S1PR5", "SPNS2", "CD68", "CD163", "ACTA2", "COL1A1", "EPCAM", "CD3D"]
+found_genes = {}
+
+with gzip.open(genes_file, 'rt') as f:
+    for idx, line in enumerate(f):
+        parts = line.strip().split('\t')
+        gene_id = parts[0]
+        gene_symbol = parts[1] if len(parts) > 1 else parts[0]
+        for tg in target_genes:
+            if tg.upper() in [gene_id.upper(), gene_symbol.upper()]:
+                found_genes[tg] = (idx + 1, gene_id, gene_symbol)
+
+for tg in target_genes:
+    if tg in found_genes:
+        print(f"[FOUND] {tg:<8} -> Index: {found_genes[tg][0]}, ID: {found_genes[tg][1]}, Symbol: {found_genes[tg][2]}")
+    else:
+        print(f"[MISSING] {tg}")
+
+print("\n=== 2. Checking Barcode Structure & Sample Tags (First 15 Barcodes) ===")
+with gzip.open(barcodes_file, 'rt') as f:
+    sample_tags = set()
+    for i, line in enumerate(f):
+        bc = line.strip()
+        if i < 15:
+            print(f"  Barcode {i+1}: {bc}")
+        # Check if sample ID is encoded in barcode (e.g., COL07_P_AAAC...)
+        if "_" in bc:
+            sample_tags.add(bc.split("_")[0])
+
+if sample_tags:
+    print(f"\n[+] Detected Sample Prefixes ({len(sample_tags)} unique prefixes):")
+    print(" ", sorted(list(sample_tags))[:20])
+else:
+    print("\n[-] Barcodes do not use '_' prefix notation.")
+

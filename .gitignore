@@ -1,0 +1,20 @@
+# Ignore raw & intermediate heavy data
+*.h5ad
+*.rds
+*.tar.gz
+*.gz
+*.raw.*
+data/
+raw_data/
+
+# Python & Environment caches
+__pycache__/
+*.py[cod]
+.venv/
+env/
+.ipynb_checkpoints/
+.DS_Store
+
+# Keep results CSVs and figures tracked
+!results/*.csv
+!figures/*.png

@@ -1,0 +1,15 @@
+,n_cells
+B_Plasma | CRC,16314
+B_Plasma | LM,1926
+Epithelial | CRC,7392
+Epithelial | LM,2679
+Mast | CRC,650
+Mast | LM,83
+Myeloid | CRC,7535
+Myeloid | LM,8585
+Stress_Response | CRC,1279
+Stress_Response | LM,17169
+Stromal_CAF | CRC,1373
+Stromal_CAF | LM,495
+T_NK | CRC,16971
+T_NK | LM,22034
