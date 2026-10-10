@@ -1,96 +1,79 @@
-# S1P Axis Remodeling in Colorectal Cancer Liver Metastasis (Single-Cell RNA-Seq)
+# Single-Cell Profiling of the S1P Metabolic and Signaling Axis in Colorectal Cancer Liver Metastasis
 
-[![Reproducible Workflow](https://img.shields.io/badge/Workflow-Reproducible-green.svg)](https://github.com/shayesteh68)
-[![Python](https://img.shields.io/badge/Python-3.14%2B-blue.svg)](https://www.python.org/)
-[![Scanpy](https://img.shields.io/badge/Scanpy-1.10%2B-brightgreen.svg)](https://scanpy.readthedocs.io/)
-[![Dataset](https://img.shields.io/badge/NCBI%20GEO-GSE178318-orange.svg)](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE178318)
+[![Python](https://img.shields.io/badge/Python-3.10-blue.svg)](https://www.python.org/)
+[![Scanpy](https://img.shields.io/badge/Scanpy-1.9+-brightgreen.svg)](https://scanpy.readthedocs.io/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
----
+## Overview
 
-## 🔬 Overview & Scientific Rationale
+This repository provides an end-to-end, reproducible single-cell RNA-sequencing (scRNA-seq) workflow investigating the **Sphingosine-1-Phosphate (S1P) metabolic and signaling axis** across Primary Colorectal Cancer (CRC) and Colorectal Liver Metastasis (CRLM).
 
-Colorectal cancer (CRC) liver metastasis remains a major clinical challenge characterized by profound stromal remodeling and immune suppression within the metastatic liver niche. The **Sphingosine-1-Phosphate (S1P) signaling axis** plays a pivotal role in fibrosis, immune cell trafficking, and vascular permeability; however, its lineage-specific dynamics between matched primary CRC and liver metastases have remained largely unquantified at single-cell resolution.
+Utilizing the public single-cell atlas **GSE178318** (140,281 initial cells), this pipeline performs rigorous quality control, normalization, high-resolution Leiden clustering, lineage-informed annotation, and comprehensive expression mapping of S1P kinases, receptors, and degradation enzymes.
 
-This repository provides a memory-optimized, fully reproducible re-analysis of **104,485 single cells** from **GSE178318** (Yeatman Lab dataset), mapping quantitative expression shifts in the S1P metabolic and receptor network across discrete tumor and microenvironmental lineages.
+## Key Biological Insights
 
----
+- **S1P Production Machinery (`SPHK1` vs `SPHK2`):**
+  - `SPHK1` is stromal/myeloid-enriched: Dendritic / APC (0.3427), CAFs (0.2705), Macrophages (0.2139).
+  - `SPHK2` shows baseline expression in Epithelial / Tumor and Stress-response compartments.
+- **Lineage-Restricted S1P Receptors:**
+  - `S1PR4` is enriched across T cells, B cells, and Plasma cells.
+  - `S1PR5` is an exclusive NK-cell marker (0.3569).
+  - `S1PR3` / `S1PR2` dominate the CAF/stromal compartment (ECM remodeling).
+- **S1P Rheostat Degradation:**
+  - `SGPL1` (S1P lyase) is strongly expressed in Dendritic / APC (0.2176) and Macrophages (0.1371), regulating local S1P gradients.
 
-## 🎯 Key Findings & Biological Insights
+## Repository Structure
 
-1. **CAF Activation via S1PR3 / SPHK2 Axis:**
-   - **Cancer-Associated Fibroblasts (CAFs)** in liver metastasis (`LM`) exhibit prominent upregulation of **`S1PR3` (+0.0875)** and **`SPHK2` (+0.0258)**.
-   - Concurrently, S1P-degrading lipid phosphate phosphatases **`PLPP3` (-0.2665)** and **`PLPP1` (-0.2013)** are heavily suppressed in metastatic stroma, driving localized pro-fibrotic S1P pathway retention.
-2. **Myeloid / TAM Phenotypic Shift:**
-   - Infiltrating myeloid lineages in liver metastasis demonstrate elevated **`ASAH1` (+0.0994)** and **`S1PR4` (+0.0341)** expression, characteristic of immunosuppressive polarization.
-3. **Epithelial/Tumor Reprogramming:**
-   - Tumor cells shift from basal `SPHK1` expression towards elevated **`SPHK2` (+0.0142)** and **`ASAH1` (+0.0888)** during metastatic colonization.
-
----
-
-## 📊 Summary Differential Matrix (LM vs CRC)
-
-| Cell Lineage | Cells (CRC) | Cells (LM) | Key Upregulated in Liver Met | Key Downregulated in Liver Met |
-| :--- | :---: | :---: | :--- | :--- |
-| **Stromal_CAF** | 1,373 | 495 | **`S1PR3` (+0.0875)**, **`SPHK2` (+0.0258)** | **`PLPP3` (-0.2665)**, **`PLPP1` (-0.2013)**, `S1PR2` (-0.0933) |
-| **Myeloid** | 7,535 | 8,585 | **`ASAH1` (+0.0994)**, **`S1PR4` (+0.0341)** | `SPHK1` (-0.0407), `SGPP1` (-0.0287) |
-| **Epithelial** | 7,392 | 2,679 | **`ASAH1` (+0.0888)**, **`PLPP3` (+0.0257)** | `PLPP2` (-0.0914), `SGPL1` (-0.0190) |
-| **T_NK** | 16,971 | 22,034 | `ASAH1` (+0.0247), `S1PR4` (+0.0176) | `S1PR5` (-0.0088), `PLPP2` (-0.0035) |
-| **B_Plasma** | 16,314 | 1,926 | `ASAH1` (+0.0659), `PLPP2` (+0.0107) | `S1PR4` (-0.0733), `CERK` (-0.0578) |
-
----
-
-## 📁 Repository Structure
-pow_yeatman_colorectal/
-
-├── figures/
-
-│ ├── s1p_differential_heatmap.png # High-res comparative heatmap (DPI=300)
-
-│ ├── s1p_dotplot_celltype_tissue.png # Expression dotplot across lineages
-
-│ └── umap_celltypes_tissue.png # QC-filtered UMAP annotations
-
+pow-crc-liver-metastasis-s1p/
+├── data/                               # Raw datasets (not tracked)
 ├── results/
-
-│ ├── s1p_detailed_differential_summary.csv
-
-│ ├── s1p_mean_by_celltype_tissue.csv
-
-│ └── s1p_group_cellcounts.csv
-
+│   ├── plots/                          # Publication-ready figures
+│   ├── leiden_cluster_markers.csv      # Top markers across clusters
+│   └── s1p_axis_mean_expression.csv    # S1P expression per lineage
 ├── scripts/
+│   ├── paths.py                        # Centralized path resolution
+│   ├── 01_fetch_data.py                # Dataset download automation
+│   ├── 05_qc_crc_lm_safe.py            # Memory-efficient QC and filtering
+│   ├── 06_preprocess_normalize.py      # Normalization and HVG selection
+│   ├── 07_dimred_clustering.py         # PCA, graph, Leiden clustering
+│   ├── 08_marker_profiling.py          # Differential gene expression
+│   ├── 09_cell_annotation.py           # Marker-based lineage annotation
+│   ├── 10_s1p_axis_profiling.py        # S1P profiling and visualization
+│   └── fix_var_names.py                # Gene symbol alignment routine
+├── environment.yml                     # Conda environment definition
+├── LICENSE                             # MIT License
+└── README.md                           # Project documentation
 
-│ ├── 01_download_data.sh
+## Installation & Environment Setup
 
-│ ├── 02_scrublet_qc.py
+git clone https://github.com/shayesteh68/pow-crc-liver-metastasis-s1p.git
+cd pow-crc-liver-metastasis-s1p
+conda env create -f environment.yml
+conda activate pow_s1p_crc
 
-│ ├── 03_run_leiden_clustering.py
+## Pipeline Execution
 
-│ ├── 10_annotate_celltypes.py
+1. Preprocessing and quality control:
 
-│ ├── 11_profile_s1p_axis.py
+python scripts/05_qc_crc_lm_safe.py
+python scripts/06_preprocess_normalize.py
+python scripts/07_dimred_clustering.py
 
-│ ├── 12_evaluate_s1p_findings.py
+2. Annotation and marker profiling:
 
-│ └── 13_plot_s1p_insights.py
+python scripts/fix_var_names.py
+python scripts/08_marker_profiling.py
+python scripts/09_cell_annotation.py
 
-├── environment.yml
+3. S1P axis interrogation:
 
-└── README.md
+python scripts/10_s1p_axis_profiling.py
 
-text
+## Citation & Data Source
 
----
+- **Dataset:** GSE178318 (NCBI Gene Expression Omnibus)
+- **Reference:** Single-cell transcriptomic atlas of colorectal cancer and liver metastases.
 
-## ⚡ Memory & Execution Safety
+## License
 
-- **Hardware Efficiency:** Designed to execute within 12 GB RAM constraints.
-- **Sparse Matrix Standard:** Employs `scipy.sparse.csr_matrix` slicing throughout downstream quantification to eliminate out-of-memory risks.
-
----
-
-## 👤 Author & Contact
-
-**Narges Shayesteh**  
-*Freelance Bioinformatician & Computational Biologist*  
-- **GitHub:** [shayesteh68](https://github.com/shayesteh68)
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

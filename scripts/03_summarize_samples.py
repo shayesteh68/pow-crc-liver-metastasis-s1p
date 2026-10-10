@@ -1,8 +1,9 @@
+from paths import DATA_DIR, RESULTS_DIR, FIG_DIR, PLOTS_DIR
+
 import gzip
 import os
 from collections import Counter
 
-DATA_DIR = "/home/digital_home/targeted_researcher_discovery/pow_yeatman_colorectal/data"
 barcodes_file = os.path.join(DATA_DIR, "GSE178318_barcodes.tsv.gz")
 
 suffix_counter = Counter()

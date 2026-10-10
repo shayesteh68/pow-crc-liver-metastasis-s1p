@@ -1,3 +1,5 @@
+from paths import DATA_DIR, RESULTS_DIR, FIG_DIR, PLOTS_DIR
+
 import os
 import scanpy as sc
 import pandas as pd
@@ -5,9 +7,6 @@ import numpy as np
 from scipy import sparse
 import matplotlib.pyplot as plt
 
-RESULTS_DIR = "/home/digital_home/targeted_researcher_discovery/pow_yeatman_colorectal/results"
-FIG_DIR = "/home/digital_home/targeted_researcher_discovery/pow_yeatman_colorectal/figures"
-os.makedirs(FIG_DIR, exist_ok=True)
 
 IN_FP = os.path.join(RESULTS_DIR, "GSE178318_CRC_LM_annotated.h5ad")
 

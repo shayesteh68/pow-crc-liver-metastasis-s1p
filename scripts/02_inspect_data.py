@@ -1,7 +1,8 @@
+from paths import DATA_DIR, RESULTS_DIR, FIG_DIR, PLOTS_DIR
+
 import gzip
 import os
 
-DATA_DIR = "/home/digital_home/targeted_researcher_discovery/pow_yeatman_colorectal/data"
 
 genes_file = os.path.join(DATA_DIR, "GSE178318_genes.tsv.gz")
 barcodes_file = os.path.join(DATA_DIR, "GSE178318_barcodes.tsv.gz")

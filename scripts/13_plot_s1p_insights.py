@@ -1,12 +1,11 @@
+from paths import DATA_DIR, RESULTS_DIR, FIG_DIR, PLOTS_DIR
+
 import os
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-RESULTS_DIR = "/home/digital_home/targeted_researcher_discovery/pow_yeatman_colorectal/results"
-FIG_DIR = "/home/digital_home/targeted_researcher_discovery/pow_yeatman_colorectal/figures"
-os.makedirs(FIG_DIR, exist_ok=True)
 
 DIFF_CSV = os.path.join(RESULTS_DIR, "s1p_detailed_differential_summary.csv")
 df_diff = pd.read_csv(DIFF_CSV)

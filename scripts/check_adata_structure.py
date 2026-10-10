@@ -1,8 +1,9 @@
+from paths import DATA_DIR, RESULTS_DIR, FIG_DIR, PLOTS_DIR
+
 import os
 import scanpy as sc
 import anndata as ad
 
-RESULTS_DIR = "/home/digital_home/targeted_researcher_discovery/pow_yeatman_colorectal/results"
 clustered_fp = os.path.join(RESULTS_DIR, "GSE178318_CRC_LM_clustered.h5ad")
 processed_fp = os.path.join(RESULTS_DIR, "GSE178318_CRC_LM_processed.h5ad")
 qc_fp = os.path.join(RESULTS_DIR, "GSE178318_CRC_LM_qc.h5ad")

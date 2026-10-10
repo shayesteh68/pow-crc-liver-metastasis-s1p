@@ -1,8 +1,9 @@
+from paths import DATA_DIR, RESULTS_DIR, FIG_DIR, PLOTS_DIR
+
 import os
 import pandas as pd
 import numpy as np
 
-RESULTS_DIR = "/home/digital_home/targeted_researcher_discovery/pow_yeatman_colorectal/results"
 CSV_FP = os.path.join(RESULTS_DIR, "s1p_mean_by_celltype_tissue.csv")
 COUNT_FP = os.path.join(RESULTS_DIR, "s1p_group_cellcounts.csv")
 

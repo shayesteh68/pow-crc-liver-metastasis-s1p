@@ -1,3 +1,5 @@
+from paths import DATA_DIR, RESULTS_DIR, FIG_DIR, PLOTS_DIR
+
 import os
 import gzip
 import numpy as np
@@ -6,9 +8,6 @@ import scanpy as sc
 from scipy import io
 from scipy import sparse
 
-DATA_DIR = "/home/digital_home/targeted_researcher_discovery/pow_yeatman_colorectal/data"
-RESULTS_DIR = "/home/digital_home/targeted_researcher_discovery/pow_yeatman_colorectal/results"
-os.makedirs(RESULTS_DIR, exist_ok=True)
 
 mtx_fp = os.path.join(DATA_DIR, "GSE178318_matrix.mtx.gz")
 genes_fp = os.path.join(DATA_DIR, "GSE178318_genes.tsv.gz")

@@ -1,9 +1,9 @@
+from paths import DATA_DIR, RESULTS_DIR, FIG_DIR, PLOTS_DIR
+
 import os
 import urllib.request
 import re
 
-DATA_DIR = "/home/digital_home/targeted_researcher_discovery/pow_yeatman_colorectal/data"
-os.makedirs(DATA_DIR, exist_ok=True)
 
 # GSE178318 metadata url
 geo_url = "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE178nnn/GSE178318/matrix/GSE178318_series_matrix.txt.gz"

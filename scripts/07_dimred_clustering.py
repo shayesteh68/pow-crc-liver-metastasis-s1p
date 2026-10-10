@@ -1,8 +1,9 @@
+from paths import DATA_DIR, RESULTS_DIR, FIG_DIR, PLOTS_DIR
+
 import os
 import gc
 import scanpy as sc
 
-RESULTS_DIR = "/home/digital_home/targeted_researcher_discovery/pow_yeatman_colorectal/results"
 IN_FP = os.path.join(RESULTS_DIR, "GSE178318_CRC_LM_processed.h5ad")
 OUT_FP = os.path.join(RESULTS_DIR, "GSE178318_CRC_LM_clustered.h5ad")
 

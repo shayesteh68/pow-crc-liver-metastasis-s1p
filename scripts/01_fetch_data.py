@@ -1,8 +1,8 @@
+from paths import DATA_DIR, RESULTS_DIR, FIG_DIR, PLOTS_DIR
+
 import os
 import subprocess
 
-DATA_DIR = "/home/digital_home/targeted_researcher_discovery/pow_yeatman_colorectal/data"
-os.makedirs(DATA_DIR, exist_ok=True)
 
 base_url = "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE178nnn/GSE178318/suppl/"
 files = [
