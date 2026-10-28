@@ -63,9 +63,12 @@ barcodes["tissue"] = parts.iloc[:, 2:].agg("_".join, axis=1).astype(str)
 adata = sc.AnnData(X=X)
 adata.obs = barcodes.set_index("barcode_raw")
 adata.var = genes.set_index("gene_id")
+adata.var["gene_id"] = adata.var.index.astype(str)
 adata.var["gene_symbol"] = genes["gene_symbol"].values
-
-# Keep gene symbols as a convenient alias (without destroying gene_id index)
+symbols = adata.var["gene_symbol"].fillna("").astype(str).str.strip()
+fallback_ids = adata.var["gene_id"].astype(str)
+display_names = [symbol if symbol and symbol.lower() != "nan" else gene_id for symbol, gene_id in zip(symbols, fallback_ids)]
+adata.var_names = display_names
 adata.var_names_make_unique()
 
 # Basic sanity checks

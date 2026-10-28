@@ -31,13 +31,28 @@ cluster_annotations = {
     "14": "Plasma Cells (IgG+)",
     "15": "Mast Cells",
     "16": "Plasmacytoid Dendritic Cells",
-    "17": "Dendritic / Antigen-Presenting Cells",
+    "17": "Myeloid Antigen-Presenting Cells",
     "18": "Stress-response Cells",
     "19": "Epithelial / Tumor Cells"
 }
 
+if "leiden_res05" not in adata.obs.columns: raise KeyError("leiden_res05 is missing; run clustering first.")
+if adata.obs["leiden_res05"].isna().any(): raise ValueError("leiden_res05 contains missing cluster IDs.")
+observed_clusters = set(adata.obs["leiden_res05"].astype(str).unique())
+expected_clusters = set(cluster_annotations)
+missing_clusters = sorted(expected_clusters - observed_clusters, key=int)
+unexpected_clusters = sorted(observed_clusters - expected_clusters, key=lambda value: (not value.isdigit(), value))
+if missing_clusters or unexpected_clusters:
+    raise ValueError(
+        "Cluster IDs differ from the reviewed marker map. Missing clusters: "
+        + ", ".join(missing_clusters)
+        + "; unexpected clusters: "
+        + ", ".join(unexpected_clusters)
+    )
+
 print("[*] Assigning cell type annotations...")
 adata.obs["cell_type"] = adata.obs["leiden_res05"].astype(str).map(cluster_annotations).astype("category")
+adata.obs["annotation_status"] = "provisional_manual_marker_reviewed"
 
 print("\n--- Cell Type Distribution ---")
 print(adata.obs["cell_type"].value_counts())
