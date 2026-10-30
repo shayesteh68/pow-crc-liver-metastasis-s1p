@@ -54,8 +54,8 @@ markers_df.to_csv(markers_csv_path, index=False)
 print(f"[✓] Saved Cluster Markers Table: {markers_csv_path}")
 
 print("\n--- Top 5 Markers per Leiden Cluster ---")
-top_markers = markers_df.groupby("group").head(5)
-for clus, df_c in top_markers.groupby("group"):
+top_markers = markers_df.groupby("group", observed=True).head(5)
+for clus, df_c in top_markers.groupby("group", observed=True):
     genes_str = ", ".join(df_c["names"].tolist())
     print(f"Cluster {clus}: {genes_str}")
 

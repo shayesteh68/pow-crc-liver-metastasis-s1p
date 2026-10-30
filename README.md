@@ -28,13 +28,13 @@ Run from the repository root, in this order:
 13. python scripts/12_evaluate_s1p_findings.py
 14. python scripts/13_plot_s1p_insights.py
 
-The QC script uses Scrublet per patient. If Scrublet fails or cannot provide a threshold, the script stops. The optional heuristic based on the highest 5% of gene counts is available only when explicitly requested with --allow-heuristic-doublet-fallback; fallback calls are recorded in the output object.
+The QC script runs Scrublet independently per patient/tissue library and records scores, thresholds, call candidates, score quantiles, and observed-versus-simulated histograms. Automatic Scrublet thresholds require visual review; this workflow does not remove cells based on them by default. To apply manually reviewed thresholds, copy `doublet_thresholds.template.tsv`, replace every `NA` with a reviewed numeric threshold for each library after reviewing its histogram, and pass the completed file with `--thresholds-tsv`. The optional gene-count heuristic is available only with `--allow-heuristic-doublet-fallback`; heuristic candidates are also not removed unless reviewed thresholds are supplied.
 
 The S1P group comparison reports per-cell mean-expression differences by cell type and tissue. It does not compute patient-level pseudobulk statistics or inferential p-values. Treat these values as descriptive; cells from one patient are not independent biological replicates.
 
-The cluster-to-cell-type table in script 09 is a manual annotation. Check the marker profiles and the current clustering before treating those labels as biological conclusions.
+The cluster-to-cell-type table in script 09 is a provisional manual annotation reviewed against marker profiles. Script 07 fixes the random states and `environment.yml` pins the analysis packages. Script 09 checks that the observed Leiden IDs match the reviewed mapping and stops if they differ, rather than silently assigning labels to changed clusters. Re-review the marker table whenever inputs, preprocessing, or package versions change.
 
-The current `results/leiden_cluster_markers.csv` snapshot contains clusters 0–19 and supports the broad lineages used in script 09. The committed `results/cluster_marker_summary.csv` contains only clusters 0–17 and conflicts with that marker table, so it is a stale snapshot from a different clustering run; do not interpret the two files together. Script 09 now requires an exact cluster-ID match before applying the manual map.
+Committed result tables and figures are historical snapshots; some come from different clustering runs and must not be interpreted together as current results. Regenerate the complete workflow from the inputs before using them for biological conclusions.
 
 Scripts 05_qc_crc_lm.py, 07_recluster_clean.py, 08_fix_and_save.py, 09_inspect_all_clusters.py, and 10_annotate_celltypes.py are exploratory/legacy alternatives and are not part of the documented pipeline.
 

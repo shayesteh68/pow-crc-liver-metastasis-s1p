@@ -2,6 +2,7 @@ from paths import DATA_DIR, RESULTS_DIR, FIG_DIR, PLOTS_DIR
 
 import gzip
 import os
+from collections import Counter
 
 
 genes_file = os.path.join(DATA_DIR, "GSE178318_genes.tsv.gz")
@@ -28,18 +29,26 @@ for tg in target_genes:
 
 print("\n=== 2. Checking Barcode Structure & Sample Tags (First 15 Barcodes) ===")
 with gzip.open(barcodes_file, 'rt') as f:
-    sample_tags = set()
+    sample_tags = Counter()
+    malformed = 0
     for i, line in enumerate(f):
         bc = line.strip()
         if i < 15:
             print(f"  Barcode {i+1}: {bc}")
-        # Check if sample ID is encoded in barcode (e.g., COL07_P_AAAC...)
-        if "_" in bc:
-            sample_tags.add(bc.split("_")[0])
+        # GEO uses <cell-barcode>_<patient>_<tissue>; the first field is not a sample ID.
+        parts = bc.rsplit("_", 2)
+        if len(parts) == 3 and parts[1] and parts[2]:
+            sample_tags[(parts[1], parts[2])] += 1
+        else:
+            malformed += 1
 
 if sample_tags:
-    print(f"\n[+] Detected Sample Prefixes ({len(sample_tags)} unique prefixes):")
-    print(" ", sorted(list(sample_tags))[:20])
+    patients = sorted({patient for patient, _ in sample_tags})
+    tissues = sorted({tissue for _, tissue in sample_tags})
+    print(f"\n[+] Parsed {len(patients)} patient IDs and {len(tissues)} tissue tags:")
+    for (patient, tissue), count in sorted(sample_tags.items()):
+        print(f"  {patient} / {tissue}: {count:,} barcodes")
+    print(f"[+] Malformed/unlabeled barcodes: {malformed:,}")
 else:
-    print("\n[-] Barcodes do not use '_' prefix notation.")
+    print("\n[-] No patient/tissue tags found in barcode names.")
 
